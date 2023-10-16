@@ -11,23 +11,24 @@ pipeline {
         
         stage('Docker Build') {
             steps {
-                sh "docker build . -t kammana/hiring:${commit_id()}"
+                sh "docker build . -t vsnaresh/hiring:${commit_id()}"
             }
         }
         stage('Docker Push') {
             steps {
-                withCredentials([string(credentialsId: 'docker-hub', variable: 'hubPwd')]) {
-                    sh "docker login -u kammana -p ${hubPwd}"
-                    sh "docker push kammana/hiring:${commit_id()}"
+                withCredentials([usernamePassword(credentialsId: 'docker-crede', passwordVariable: 'dhubPwd', usernameVariable: 'dhubUser')]) {
+                    sh "docker login -u ${dhubUser} -p ${dhubPwd}"
+                    sh "docker push vsnaresh/hiring:${commit_id()}"
                 }
             }
         }
         stage('Docker Deploy') {
             steps {
-                sshagent(['docker-host']) {
-                    sh "ssh -o StrictHostKeyChecking=no  ec2-user@172.31.36.37 docker rm -f hiring"
-                    sh "ssh  ec2-user@172.31.36.37 docker run -d -p 8080:8080 --name hiring kammana/hiring:${commit_id()}"
+                sshagent(['docker-login']) {
+                    sh "ssh -o StrictHostKeyChecking=no  ec2-user@172.31.8.121 docker rm -f hiring"
+                    sh "ssh  ec2-user@172.31.8.121 docker run -d -p 8080:8080 --name hiring vsnaresh/hiring:${commit_id()}"
                 }
+                
             }
         }
 
