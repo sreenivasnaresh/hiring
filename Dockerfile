@@ -9,6 +9,6 @@ RUN mvn clean package
 # Stage 2: Create the final image
 FROM tomcat:9-jre11-slim
 WORKDIR /usr/local/tomcat/webapps
-COPY --from=build /app/target/web.war .
+COPY --from=build /app/target/*.war .
 EXPOSE 8080
 CMD ["catalina.sh", "run"]
