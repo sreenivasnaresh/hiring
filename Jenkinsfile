@@ -3,11 +3,11 @@ pipeline {
 
     stages {
         
-        stage('Maven Build') {
-            steps {
-                sh "mvn clean package"
-            }
-        }
+        // stage('Maven Build') {
+        //     steps {
+        //         sh "mvn clean package"
+        //     }
+        // }
         
         stage('Docker Build') {
             steps {
