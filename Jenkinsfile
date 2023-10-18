@@ -26,7 +26,7 @@ pipeline {
             steps {
                 sshagent(['docker-login']) {
                     sh "ssh -o StrictHostKeyChecking=no  ec2-user@172.31.8.121 docker rm -f hiring"
-                    sh "ssh  ec2-user@172.31.8.121 docker run -d -p 8080:8080 --name hiring vsnaresh/web:${commit_id()}"
+                    sh "ssh  ec2-user@172.31.8.121 docker run -d -p 8090:8080 --name hiring vsnaresh/web:${commit_id()}"
                 }
                 
             }
