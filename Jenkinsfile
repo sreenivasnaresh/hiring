@@ -1,8 +1,20 @@
 pipeline {
     agent any
+    tools {
+        // Define and install Maven tool (requires a configured Maven tool in Jenkins)
+        maven 'maven'
+    }
+
 
     stages {
-        
+        stage('mvn Build') {
+            steps {
+                script {
+                    def mavenHome = tool name: 'maven', type: 'maven'
+                    sh "${mavenHome}/bin/mvn clean install"
+                }
+            }
+        }
         // stage('Maven Build') {
         //     steps {
         //         sh "mvn clean package"
