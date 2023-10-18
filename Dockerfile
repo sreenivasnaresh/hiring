@@ -10,5 +10,5 @@ RUN mvn clean package
 FROM tomcat:9-jre11-slim
 WORKDIR /usr/local/tomcat/webapps
 COPY --from=build /app/target/*.war .
-EXPOSE 8080
+EXPOSE 8090
 CMD ["catalina.sh", "run"]
