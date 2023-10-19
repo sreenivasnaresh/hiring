@@ -9,14 +9,14 @@ pipeline {
         
         stage('Docker Build') {
             steps {
-                sh "docker build . -t vsnaresh/web:${commit_id()}"
+                sh "docker build . -t vsnaresh/web:1.0.4"
             }
         }
         stage('Docker Push') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker-crede', passwordVariable: 'dhubPwd', usernameVariable: 'dhubUser')]) {
                     sh "docker login -u ${dhubUser} -p ${dhubPwd}"
-                    sh "docker push vsnaresh/web:${commit_id()}"
+                    sh "docker push vsnaresh/web:1.0.4"
                 }
             }
         }
@@ -33,7 +33,7 @@ pipeline {
     }
 }
 
-def commit_id(){
-    id = sh returnStdout: true, script: 'git rev-parse HEAD'
-    return id
-}
+// def commit_id(){
+//     id = sh returnStdout: true, script: 'git rev-parse HEAD'
+//     return id
+// }
