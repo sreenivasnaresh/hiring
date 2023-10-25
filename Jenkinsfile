@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent{
+        label 'Linux1'
+    }
     stages {
         // stage('Maven Build') {
         //     steps {
