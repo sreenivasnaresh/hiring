@@ -1,25 +1,46 @@
 pipeline {
-    //agent any
-    agent{
-        label 'Linux1'
-    }
+    agent none
+    // agent{
+    //     label 'Linux1'
+    // }
     stages {
-        // stage('Maven Build') {
-        //     steps {
-        //         sh "mvn clean package"
-        //     }
-        // }
-        
-        stage('Docker Build') {
+        stage('Build on Slave when its online') {
+            when {
+                expression {
+                    def node = Jenkins.instance.getComputer("Linux1")
+                    return node != null && node.isOnline()
+                }
+            }
+            agent { label 'Linux1' } // Specify the label of the agent to use
             steps {
-                sh "docker build . -t vsnaresh/web:1.0.7"
+                //git branch: 'main', credentialsId: '3f038be7-ca0a-4c0d-bc0d-8e27d692c28e', url: 'https://github.com/sreenivasnaresh/hiring'
+                sh "docker build . -t vsnaresh/web:1.0.8"
             }
         }
+        stage('Build on Master when agent is Offline') {
+            when {
+                expression {
+                    def node = Jenkins.instance.getComputer("Linux1")
+                    return node == null || !node.isOnline()
+                }
+            }
+            agent any
+            steps {
+                //git branch: 'main', credentialsId: '3f038be7-ca0a-4c0d-bc0d-8e27d692c28e', url: 'https://github.com/sreenivasnaresh/hiring'
+                sh "docker build . -t vsnaresh/web:1.0.8"
+            }
+        }
+        
+        // stage('Docker Build') {
+        //     steps {
+        //         sh "docker build . -t vsnaresh/web:1.0.8"
+        //     }
+        // }
         stage('Docker Push') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker-crede', passwordVariable: 'dhubPwd', usernameVariable: 'dhubUser')]) {
                     sh "docker login -u ${dhubUser} -p ${dhubPwd}"
-                    sh "docker push vsnaresh/web:1.0.7"
+                    sh "docker push vsnaresh/web:1.0.8"
                 }
             }
         }
