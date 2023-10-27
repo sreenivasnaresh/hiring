@@ -7,7 +7,7 @@ pipeline {
         stage('Build on Slave when its online') {
             steps {
                 script{
-                 def slaveNode = Jenkins.instance.getNode('Linux1')
+                 def slaveNode = Jenkins.instance.getNode('linux-slave-1')
                     
                     if (slaveNode != null && slaveNode.toComputer().online) {
                         currentBuild.agent = label 'Linux1' // Run on the slave if it's online
