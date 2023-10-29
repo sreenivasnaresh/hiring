@@ -2,7 +2,7 @@ pipeline {
     agent none
     stages {
         stage('Build on Slave when its online') {
-            agent any
+            //agent any
             steps {
                 script {
                     def slaveNode = Jenkins.instance.getNode('linux-slave-1')
