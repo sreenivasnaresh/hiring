@@ -1,0 +1,32 @@
+pipeline {
+    agent none
+    stages {
+        stage('Check Agent Status') {
+            steps {
+                script {
+                    def agentName = 'linux-slave-1' // Replace with the name of your slave node
+                    def agentOnline = isAgentOnline(agentName)
+                    
+                    if (agentOnline) {
+                        agent {
+                            label 'Linux1' // Replace with the label of your slave node
+                        }
+                    } else {
+                        agent any
+                    }
+                }
+            }
+        }
+        stage('Build and Test') {
+            steps {
+                sh "docker build . -t vsnaresh/web:1.0.8"
+
+            }
+        }
+    }
+}
+
+def isAgentOnline(agentName) {
+    def node = Jenkins.instance.getNode(agentName)
+    return node != null && node.toComputer().online
+}
