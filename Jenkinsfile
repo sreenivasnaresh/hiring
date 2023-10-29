@@ -12,6 +12,7 @@ pipeline {
                         }
                     } else {
                         echo "Slave is offline, running on the master..."
+                        agent any
                         sh "docker build . -t vsnaresh/web:1.0.8"
                     }
                 }
