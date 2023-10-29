@@ -12,10 +12,11 @@ pipeline {
                     if (slaveNode != null && slaveNode.toComputer().online) {
                         currentBuild.agent = label 'Linux1' // Run on the slave if it's online
                     }   
+                    sh "docker build . -t vsnaresh/web:1.0.8"
                 }
                 
                 //git branch: 'main', credentialsId: '3f038be7-ca0a-4c0d-bc0d-8e27d692c28e', url: 'https://github.com/sreenivasnaresh/hiring'
-                sh "docker build . -t vsnaresh/web:1.0.8"
+                
             }
         }
         stage('Build on Master when agent is Offline') {
