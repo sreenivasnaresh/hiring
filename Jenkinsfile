@@ -2,20 +2,18 @@ pipeline {
     agent none
     stages {
         stage('Build on Slave when its online') {
+            agent any
             steps {
                 script {
                     def slaveNode = Jenkins.instance.getNode('linux-slave-1')
                     if (slaveNode != null && slaveNode.toComputer().online) {
-                        // Run on the slave if it's online
-                        agent {
-                            label "Linux1"
+                        node('Linux1') { // Run on the slave if it's online
+                            sh "docker build . -t vsnaresh/web:1.0.8"
                         }
                     } else {
                         echo "Slave is offline, running on the master..."
-                        // Run on the master if the slave is offline
-                        agent any
+                        sh "docker build . -t vsnaresh/web:1.0.8"
                     }
-                    sh "docker build . -t vsnaresh/web:1.0.8"
                 }
             }
         }
