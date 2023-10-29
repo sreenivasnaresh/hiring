@@ -5,14 +5,14 @@ pipeline {
             //agent any
             steps {
                 script {
-                    def slaveNode = Jenkins.instance.getNode('Linux1')
+                    def slaveNode = Jenkins.instance.getNode('linux-slave-1')
                     if (slaveNode != null && slaveNode.toComputer().online) {
                         node('Linux1') { // Run on the slave if it's online
                             sh "docker build . -t vsnaresh/web:1.0.8"
                         }
                     } else {
                         echo "Slave is offline, running on the master..."
-                        agent any
+                        agent Jen
                         sh "docker build . -t vsnaresh/web:1.0.8"
                     }
                 }
