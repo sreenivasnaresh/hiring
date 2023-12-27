@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('git checkout'){
             steps{
-                sh "git url: 'https://github.com/sreenivasnaresh/hiring', branch: 'main'"
+                git branch: 'main', url: 'https://github.com/sreenivasnaresh/hiring'
             }
         }
         stage('Build on Slave when its online') {
