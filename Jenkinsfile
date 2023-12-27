@@ -7,7 +7,6 @@ pipeline {
             }
         }
         stage('Build on Slave when its online') {
-            //agent any
             steps {
                 script {
                   sh "docker build . -t vsnaresh/web:2.0.0
