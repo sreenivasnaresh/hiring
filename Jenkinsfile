@@ -1,11 +1,6 @@
 pipeline {
     agent any
     stages {
-        stage('git checkout'){
-            steps{
-                git branch: 'main', url: 'https://github.com/sreenivasnaresh/hiring'
-            }
-        }
         stage('Build on Slave when its online') {
             steps {
                 script {
