@@ -1,6 +1,11 @@
 pipeline {
     agent none
     stages {
+        stage('git checkout'){
+            steps{
+                sh "git url: 'https://github.com/sreenivasnaresh/hiring', branch: 'main'"
+            }
+        }
         stage('Build on Slave when its online') {
             //agent any
             steps {
@@ -26,15 +31,15 @@ pipeline {
                 }
             }
         }
-        stage('Docker Deploy') {
-            steps {
-                sshagent(['docker-login']) {
-                    sh "ssh -o StrictHostKeyChecking=no  ec2-user@172.31.8.121 docker rm -f hiring"
-                    sh "ssh  ec2-user@172.31.8.121 docker run -d -p 8090:8080 --name hiring vsnaresh/web:1.0.7"
-                }
+        // stage('Docker Deploy') {
+        //     steps {
+        //         sshagent(['docker-login']) {
+        //             sh "ssh -o StrictHostKeyChecking=no  ec2-user@172.31.8.121 docker rm -f hiring"
+        //             sh "ssh  ec2-user@172.31.8.121 docker run -d -p 8090:8080 --name hiring vsnaresh/web:1.0.7"
+        //         }
                 
-            }
-        }
+        //     }
+        // }
 
     }
 }
