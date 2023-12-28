@@ -4,7 +4,7 @@ pipeline {
         stage('Build on Slave when its online') {
             steps {
                 script {
-                  sh "docker build . -t vsnaresh/web:2.0.0"
+                  sh "docker build . -t vsnaresh/web:2.0.1"
                 }
             }
         }
@@ -12,7 +12,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker-crede', passwordVariable: 'dhubPwd', usernameVariable: 'dhubUser')]) {
                     sh "docker login -u ${dhubUser} -p ${dhubPwd}"
-                    sh "docker push vsnaresh/web:2.0.0"
+                    sh "docker push vsnaresh/web:2.0.1"
                 }
             }
         }
