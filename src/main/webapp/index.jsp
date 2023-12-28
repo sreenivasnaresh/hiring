@@ -53,7 +53,7 @@
       <div class="page-heading">
 
         <!-- Page Heading -->
-        <h1>Page Heading</h1>
+        <h1>Naresh App</h1>
 
       </div>
 
