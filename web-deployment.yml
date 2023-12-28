@@ -22,7 +22,7 @@ spec:
         app: webapp
     spec:
       containers:
-      - image: vsnaresh/web:2.0.0
+      - image: vsnaresh/web:2.0.1
         name: webapp
         ports:
         - containerPort: 8080
