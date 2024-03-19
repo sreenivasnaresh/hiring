@@ -6,7 +6,7 @@ metadata:
     app: webapp
   name: webapp
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: webapp
@@ -22,7 +22,7 @@ spec:
         app: webapp
     spec:
       containers:
-      - image: vsnaresh/web:2.0.2
+      - image: vsnaresh/web:2.0.1
         name: webapp
         ports:
         - containerPort: 8080
